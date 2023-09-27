@@ -8,5 +8,15 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 
+Load R packages
+```{r,include=FALSE}
+library(tidyverse)
+```
+
+
+## Problem 1: FiveThirtyEight data
+```{r}
+pols_month=read_csv("./fivethirtyeight_datasets/pols-month.csv")
+```
+
 
