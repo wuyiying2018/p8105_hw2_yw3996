@@ -34,13 +34,23 @@ pols_month = read_csv("./fivethirtyeight_datasets/pols-month.csv")|>
         )|>
   select(-prez_dem,-prez_gop,-day)
 
-pols_month  
+head(pols_month)
 ```
 
-Clean the data in snp.csv using a similar process to the above, arrange according to year and month, and organize so that year and month are the leading columns.
+Clean the data in `snp.csv` using a similar process to the above, arrange according to year and month, and organize so that year and month are the leading columns.
 ```{r}
 snp = read_csv("./fivethirtyeight_datasets/snp.csv")|>
-  janitor::clean_names()
+  janitor::clean_names()|>
+  mutate(
+    date=ifelse(as.Date(date,"%m/ %d/ %y")> Sys.Date(),
+                format(as.Date(date,"%m/ %d/ %y"),'19%y-%m-%d'),
+                format(as.Date(date,"%m/ %d/ %y"),'%Y-%m-%d'))
+        )|>
+  separate(date,into=c("year","month","day"),)|>
+  mutate(month = month.name[as.numeric(month)])|>
+  select(year,month, everything(),-day)
+
+head(snp)
 ```
 
 
