@@ -19,17 +19,23 @@ Clean the data in `pols-month.csv`:
 
 * Use `separate()` to break up the variable `mon` into integer variables `year`, `month`, and `day` 
 * Replace month number with month name
-* Create a `president` variable taking values `gop` and `dem`
-* Remove `prez_dem` and `prez_gop` 
+* Create a `president` variable taking values `gop` and `dem`, and remove `prez_dem` and `prez_gop` 
 * Remove the `day` variable.
 ```{r}
 pols_month=read_csv("./fivethirtyeight_datasets/pols-month.csv")|>
   janitor::clean_names()|>
   separate(mon,into=c("year","month","day"),)|>
-  mutate(month = month.name[as.numeric(month)])
+  mutate(month = month.name[as.numeric(month)],
+         president=case_match(
+           prez_dem,
+           1~"democratic",
+           0~"republican"
+           )
+        )|>
+  select(-prez_dem,-prez_gop,-day)
   
 
-  
+pols_month  
 ```
 
 
