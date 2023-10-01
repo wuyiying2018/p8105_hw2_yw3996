@@ -81,8 +81,8 @@ unemployment
 Join the datasets by merging `snp` into `pols_month`, and merging `unemployment` into the result.
 ```{r}
 df=pols_month|>
-  full_join(snp,by=c("year", "month"))|>
-  full_join(unemployment, by=c("year", "month"))
+  left_join(snp,by=c("year", "month"))|>
+  left_join(unemployment, by=c("year", "month"))
 
 df
 ```
@@ -91,7 +91,7 @@ df
 * `pols_month`: pols_month is a 822 × 9 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`. The `year` variable in this dataset ranges from `r min(pols_month$year)` to `r max(pols_month$year)`.
 * `snp`: snp is a 787 × 3 dataset with variable `year`, `month`, `close`. The `year` variable in this dataset ranges from `r min(snp$year)` to `r max(snp$year)`.
 * `unemployment`: unemployment is a 816 × 3 dataset with variable `year`, `month`, `unemployment`. The `year` variable in this dataset ranges from `r min(unemployment$year)` to `r max(unemployment$year)`.
-* `df`: the joined dataset df is a 828 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
+* `df`: the joined dataset df is a 822 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
 
 
 ## Problem 2: Mr. Trash Wheel dataset
@@ -101,7 +101,9 @@ Read and clean the Mr. Trash Wheel sheet:
 * use reasonable variable names
 * omit rows that do not include dumpster-specific data
 ```{r}
-mr_trash_wheel = read_excel("202207 Trash Wheel Collection Data.xlsx", sheet="Mr. Trash Wheel")
+mr_trash_wheel = read_excel("202207 Trash Wheel Collection Data.xlsx", sheet="Mr. Trash Wheel", range = cell_cols("A:N"))|>
+  janitor::clean_names()|>
+  filter(row_number() <= n()-1)
 
 mr_trash_wheel
 ```
