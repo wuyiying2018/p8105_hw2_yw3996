@@ -130,10 +130,30 @@ gwynnda = read_excel(
   "202207 Trash Wheel Collection Data.xlsx", 
   sheet="Gwynnda Trash Wheel", range = cell_cols("A:K"))|>
   janitor::clean_names()|>
-  filter(row_number() <= n()-1)|>
+  filter(row_number() <= n()-2)|>
   mutate(homes_powered=weight_tons*500/30)
 
 gwynnda
 ```
 
-combine these with the Mr. Trash Wheel dataset to produce a single tidy dataset. To keep track of which Trash Wheel is which, you may need to add an additional variable to all datasets before combining.
+combine these with the Mr. Trash Wheel dataset to produce a single tidy dataset `mr_trash_wheel_tidy`. To keep track of which Trash Wheel is which, add an additional variable `trash_wheel` to all datasets before combining.
+```{r}
+mr_trash_wheel=mr_trash_wheel|>
+  mutate(trash_wheel="Mr. Trash Wheel")
+
+professor_trash_wheel=professor_trash_wheel|>
+  mutate(trash_wheel="Professor Trash Wheel",
+         year=as.character(year))
+
+gwynnda=gwynnda|>
+  mutate(trash_wheel="Gwynnda Trash Wheel",
+         year=as.character(year))
+
+mr_trash_wheel_tidy = 
+  bind_rows(mr_trash_wheel, professor_trash_wheel, gwynnda) |>
+  janitor::clean_names() |>
+  select(trash_wheel, everything()) 
+
+mr_trash_wheel_tidy
+```
+
