@@ -53,5 +53,17 @@ snp = read_csv("./fivethirtyeight_datasets/snp.csv")|>
 head(snp)
 ```
 
+tidy the `unemployment` data so that it can be merged with the previous datasets: 
+
+* switching from “wide” to “long” format
+* ensuring that key variables have the same name
+* ensuring that key variables take the same values
+```{r}
+unemployment = read_csv("./fivethirtyeight_datasets/unemployment.csv")|>
+  janitor::clean_names()
+```
+
+
+
 
 
