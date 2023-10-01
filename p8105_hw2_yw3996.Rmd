@@ -15,7 +15,7 @@ library(tidyverse)
 
 
 ## Problem 1: FiveThirtyEight data
-### `pols-month.csv
+### `pols-month.csv`
 Clean the data in `pols-month.csv`: 
 
 * Use `separate()` to break up the variable `mon` into integer variables `year`, `month`, and `day` 
@@ -39,7 +39,10 @@ pols_month
 ```
 
 ### `snp.csv`
-Clean the data in `snp.csv` using a similar process to the above, arrange according to year and month, and organize so that year and month are the leading columns.
+Clean the data in `snp.csv` using a similar process to the above. 
+
+* arrange according to year and month
+* organize so that year and month are the leading columns
 ```{r}
 snp = read_csv("./fivethirtyeight_datasets/snp.csv")|>
   janitor::clean_names()|>
@@ -90,7 +93,7 @@ df
 * `df`: the joined dataset df is a 828 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
 
 
-
+## Problem 2:
 
 
 
