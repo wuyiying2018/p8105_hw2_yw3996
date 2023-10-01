@@ -112,5 +112,28 @@ mr_trash_wheel = read_excel(
 mr_trash_wheel
 ```
 
+Use a similar process to import, clean, and organize the data for `professor_trash_wheel`
+```{r}
+professor_trash_wheel = read_excel(
+  "202207 Trash Wheel Collection Data.xlsx", 
+  sheet="Professor Trash Wheel", range = cell_cols("A:M"))|>
+  janitor::clean_names()|>
+  filter(row_number() <= n()-1)|>
+  mutate(homes_powered=weight_tons*500/30)
 
+professor_trash_wheel
+```
 
+Use a similar process to import, clean, and organize the data for `gwynnda`
+```{r}
+gwynnda = read_excel(
+  "202207 Trash Wheel Collection Data.xlsx", 
+  sheet="Gwynnda Trash Wheel", range = cell_cols("A:K"))|>
+  janitor::clean_names()|>
+  filter(row_number() <= n()-1)|>
+  mutate(homes_powered=weight_tons*500/30)
+
+gwynnda
+```
+
+combine these with the Mr. Trash Wheel dataset to produce a single tidy dataset. To keep track of which Trash Wheel is which, you may need to add an additional variable to all datasets before combining.
