@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Load R packages
 ```{r,include=TRUE,message = FALSE}
 library(tidyverse)
+library(readxl)
 ```
 
 
@@ -93,7 +94,17 @@ df
 * `df`: the joined dataset df is a 828 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
 
 
-## Problem 2:
+## Problem 2: Mr. Trash Wheel dataset
+Read and clean the Mr. Trash Wheel sheet:
+
+* specify the sheet in the Excel file and to omit non-data entries (rows with notes / figures; columns containing notes) using arguments in `read_excel`
+* use reasonable variable names
+* omit rows that do not include dumpster-specific data
+```{r}
+mr_trash_wheel = read_excel("202207 Trash Wheel Collection Data.xlsx", sheet="Mr. Trash Wheel")
+
+mr_trash_wheel
+```
 
 
 
