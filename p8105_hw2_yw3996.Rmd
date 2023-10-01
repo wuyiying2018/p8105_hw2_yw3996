@@ -15,6 +15,7 @@ library(tidyverse)
 
 
 ## Problem 1: FiveThirtyEight data
+### `pols-month.csv
 Clean the data in `pols-month.csv`: 
 
 * Use `separate()` to break up the variable `mon` into integer variables `year`, `month`, and `day` 
@@ -34,9 +35,10 @@ pols_month = read_csv("./fivethirtyeight_datasets/pols-month.csv")|>
         )|>
   select(-prez_dem,-prez_gop,-day)
 
-head(pols_month)
+pols_month
 ```
 
+### `snp.csv`
 Clean the data in `snp.csv` using a similar process to the above, arrange according to year and month, and organize so that year and month are the leading columns.
 ```{r}
 snp = read_csv("./fivethirtyeight_datasets/snp.csv")|>
@@ -50,9 +52,10 @@ snp = read_csv("./fivethirtyeight_datasets/snp.csv")|>
   mutate(month = month.name[as.numeric(month)])|>
   select(year,month, everything(),-day)
 
-head(snp)
+snp
 ```
 
+### `unemployment`
 tidy the `unemployment` data so that it can be merged with the previous datasets: 
 
 * switching from “wide” to “long” format
@@ -68,8 +71,7 @@ unemployment = read_csv("./fivethirtyeight_datasets/unemployment.csv")|>
   mutate(month=month.name[match(month,month.abb)])|>
   mutate(year=as.character(year))
 
-head(unemployment)
-
+unemployment
 ```
 
 Join the datasets by merging `snp` into `pols_month`, and merging `unemployment` into the result.
@@ -78,8 +80,14 @@ df=pols_month|>
   full_join(snp,by=c("year", "month"))|>
   full_join(unemployment, by=c("year", "month"))
 
-head(df)
+df
 ```
+
+### description of datasets
+* `pols_month`: pols_month is a 822 × 9 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`. The `year` variable in this dataset ranges from `r min(pols_month$year)` to `r max(pols_month$year)`.
+* `snp`: snp is a 787 × 3 dataset with variable `year`, `month`, `close`. The `year` variable in this dataset ranges from `r min(snp$year)` to `r max(snp$year)`.
+* `unemployment`: unemployment is a 816 × 3 dataset with variable `year`, `month`, `unemployment`. The `year` variable in this dataset ranges from `r min(unemployment$year)` to `r max(unemployment$year)`.
+* `df`: the joined dataset df is a 828 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
 
 
 
