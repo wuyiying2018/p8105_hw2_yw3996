@@ -65,10 +65,22 @@ unemployment = read_csv("./fivethirtyeight_datasets/unemployment.csv")|>
     names_to = "month", 
     values_to = "unemployment")|>
   janitor::clean_names()|>
-  mutate(month=month.name[match(month,month.abb)])
+  mutate(month=month.name[match(month,month.abb)])|>
+  mutate(year=as.character(year))
 
 head(unemployment)
+
 ```
+
+Join the datasets by merging `snp` into `pols_month`, and merging `unemployment` into the result.
+```{r}
+df=pols_month|>
+  full_join(snp,by=c("year", "month"))|>
+  full_join(unemployment, by=c("year", "month"))
+
+head(df)
+```
+
 
 
 
