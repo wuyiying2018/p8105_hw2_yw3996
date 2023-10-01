@@ -171,4 +171,13 @@ mr_trash_wheel_tidy
 * The total weight of trash collected by Professor Trash Wheel is `r sum(professor_trash_wheel$weight_tons)` tons.
 * The total number of cigarette butts collected by Gwynnda in July of 2021 is `r sum(subset(gwynnda, month == "July" & year == "2021" )$cigarette_butts)`.
 
+## Problem 3: MCI data
+import data
+```{r}
+mci_amyloid = read_csv("./data_mci/mci_amyloid.csv")|>
+  janitor::clean_names()
+
+mci_baseline = read_csv("./data_mci/MCI_baseline.csv")|>
+  janitor::clean_names()
+```
 
