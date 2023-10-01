@@ -60,7 +60,14 @@ tidy the `unemployment` data so that it can be merged with the previous datasets
 * ensuring that key variables take the same values
 ```{r}
 unemployment = read_csv("./fivethirtyeight_datasets/unemployment.csv")|>
-  janitor::clean_names()
+  pivot_longer(
+    Jan:Dec,
+    names_to = "month", 
+    values_to = "unemployment")|>
+  janitor::clean_names()|>
+  mutate(month=month.name[match(month,month.abb)])
+
+head(unemployment)
 ```
 
 
