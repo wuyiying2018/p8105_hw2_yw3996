@@ -78,6 +78,7 @@ unemployment = read_csv("./fivethirtyeight_datasets/unemployment.csv")|>
 unemployment
 ```
 
+### Merge datasets
 Join the datasets by merging `snp` into `pols_month`, and merging `unemployment` into the result.
 ```{r}
 df=pols_month|>
@@ -87,14 +88,15 @@ df=pols_month|>
 df
 ```
 
-### description of datasets
-* `pols_month`: pols_month is a 822 × 9 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`. The `year` variable in this dataset ranges from `r min(pols_month$year)` to `r max(pols_month$year)`.
-* `snp`: snp is a 787 × 3 dataset with variable `year`, `month`, `close`. The `year` variable in this dataset ranges from `r min(snp$year)` to `r max(snp$year)`.
-* `unemployment`: unemployment is a 816 × 3 dataset with variable `year`, `month`, `unemployment`. The `year` variable in this dataset ranges from `r min(unemployment$year)` to `r max(unemployment$year)`.
-* `df`: the joined dataset df is a 822 × 11 dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
+### Description of datasets
+* `pols_month`: pols_month is a `r nrow(pols_month)` rows × `r ncol(pols_month)` columns dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`. The `year` variable in this dataset ranges from `r min(pols_month$year)` to `r max(pols_month$year)`.
+* `snp`: snp is a `r nrow(snp)` rows × `r ncol(snp)` columns dataset with variable `year`, `month`, `close`. The `year` variable in this dataset ranges from `r min(snp$year)` to `r max(snp$year)`.
+* `unemployment`: unemployment is a `r nrow(unemployment)` rows × `r ncol(unemployment)` columns dataset with variable `year`, `month`, `unemployment`. The `year` variable in this dataset ranges from `r min(unemployment$year)` to `r max(unemployment$year)`.
+* `df`: the joined dataset df is a `r nrow(df)` rows × `r ncol(df)` columns dataset with variable `year`, `month`, `gov_gop`, `sen_gop`, `rep_gop`, `gov_dem`, `sen_dem`, `rep_dem`, `president`, `close`, `unemployment`. The `year` variable in this dataset ranges from `r min(df$year)` to `r max(df$year)`.
 
 
 ## Problem 2: Mr. Trash Wheel dataset
+### Mr. Trash Wheel sheet
 Read and clean the Mr. Trash Wheel sheet:
 
 * specify the sheet in the Excel file and to omit non-data entries (rows with notes / figures; columns containing notes) using arguments in `read_excel`
@@ -112,6 +114,7 @@ mr_trash_wheel = read_excel(
 mr_trash_wheel
 ```
 
+### Professor Trash Wheel sheet
 Use a similar process to import, clean, and organize the data for `professor_trash_wheel`
 ```{r}
 professor_trash_wheel = read_excel(
@@ -124,6 +127,7 @@ professor_trash_wheel = read_excel(
 professor_trash_wheel
 ```
 
+### Gwynnda Trash Wheel sheet
 Use a similar process to import, clean, and organize the data for `gwynnda`
 ```{r}
 gwynnda = read_excel(
@@ -136,6 +140,7 @@ gwynnda = read_excel(
 gwynnda
 ```
 
+### Combine datasets
 combine these with the Mr. Trash Wheel dataset to produce a single tidy dataset `mr_trash_wheel_tidy`. To keep track of which Trash Wheel is which, add an additional variable `trash_wheel` to all datasets before combining.
 ```{r}
 mr_trash_wheel=mr_trash_wheel|>
@@ -156,4 +161,14 @@ mr_trash_wheel_tidy =
 
 mr_trash_wheel_tidy
 ```
+
+### Description of datasets
+
+* The resulting dataset `mr_trash_wheel_tidy` includes `r nrow(mr_trash_wheel_tidy)` observations, with `r ncol(mr_trash_wheel_tidy)` variables: `trash_wheel`, `dumpster`, `month`, `year`, `date`, `weight_tons`, `volume_cubic_yards`, `plastic_bottles`, `polystyrene`, `cigarette_butts`, `glass_bottles`, `grocery_bags`, `chip_bags`, `sports_balls`, `homes_powered`, `plastic_bags`. 
+* Key variables
+  * `trash_wheel`: Indicate which sheet each record belongs to. "Mr. Trash Wheel" means the record is in Mr. Trash Wheel sheet. "Professor Trash Wheel" means the record is in Professor Trash Wheel sheet. "Gwynnda Trash Wheel" means the record is in Gwynnda Trash Wheel sheet.
+  * `homes_powered`: Homes Powered - Each ton of trash equates to on average 500 kilowatts of electricity.  An average household will use 30 kilowatts per day. This can be calculates as weight_tons * 500 / 30
+* The total weight of trash collected by Professor Trash Wheel is `r sum(professor_trash_wheel$weight_tons)` tons.
+* The total number of cigarette butts collected by Gwynnda in July of 2021 is `r sum(subset(gwynnda, month == "July" & year == "2021" )$cigarette_butts)`.
+
 
