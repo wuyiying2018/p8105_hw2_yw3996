@@ -193,14 +193,21 @@ mci_baseline = read_csv("./data_mci/MCI_baseline.csv", skip=1)|>
         1 ~ "apoe4 carrier",
         0 ~ "apoe4 non-carrier"),
     apoe4 = as.factor(apoe4),
-    age_at_onset = ifelse(age_at_onset==".",NA,age_at_onset)
+    age_at_onset = ifelse(age_at_onset==".", NA, age_at_onset)
     ) |>
   drop_na(age_at_onset)
 
 mci_baseline
 ```
 
-Discuss important steps in the import process and relevant features of the dataset.
+Important steps in the import process:
+
+* `skip=1`: skip the first line (i.e. the line of variable explanations) when importing dataset
+* `case_match`: change sex and apoe4 into what they really mean instead of number 0 or 1
+* `drop_na(age_at_onset)`: remove the row with missing value in variable `age_at_onset`. This can only recognize `NA` as a missing value, so the previous missing value `.` in the dataset have to be changed into `NA` before using `drop_na`.
+
+
+and relevant features of the dataset.
 
 ```{r}
 mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
