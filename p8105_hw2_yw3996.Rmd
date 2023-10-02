@@ -262,3 +262,9 @@ df_2
 
 * The resulting dataset `df_2` includes `r nrow(df_2)` observations, with `r ncol(df_2)` variables
 * The variables include: `id`, `current_age` (in years), `sex` (female or male), `educations` (in years), `apoe4` (whether apoe4 carrier or non-carrier), `age_at_onset`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
+
+### Export the result as a CSV to data directory
+```{r}
+write.csv(df_2, file = "./data/result.csv", row.names = FALSE)
+```
+
