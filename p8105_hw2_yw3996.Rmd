@@ -210,6 +210,9 @@ Relevant features of the dataset:
 
 * The dataset has `r nrow(mci_baseline)` observations, with `r ncol(mci_baseline)` variables.
 * The variables are `id`, `current_age`, `sex`(female or male),`education` (in years), `apoe4` (whether apoe4 carrier or non-carrier), `age_at_onset`
+* 483 participants were recruited, and of these `r nrow(mci_baseline)` developed MCI.
+* The average baseline age is `r round(mean(mci_baseline$current_age, na.rm = TRUE),2)` years
+* The proportion of women in the study are APOE4 carriers is P(apoe4 carriers|women developed mci)=`r round( nrow(mci_baseline[mci_baseline$sex == 'female' & mci_baseline$apoe4 =='apoe4 carrier', ]) / nrow(mci_baseline[mci_baseline$sex == 'female' , ]),4) `
 
 ```{r}
 mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
