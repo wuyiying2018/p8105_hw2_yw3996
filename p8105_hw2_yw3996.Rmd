@@ -251,3 +251,10 @@ mci_amyloid_only
 
 Therefore, there are participants appear in only the baseline and participants appear in only amyloid datasets.
 
+Combine the demographic and biomarker datasets so that only participants who appear in both datasets are retained
+```{r}
+df_2 = inner_join(mci_baseline, mci_amyloid, by = "id")
+
+df_2
+```
+
