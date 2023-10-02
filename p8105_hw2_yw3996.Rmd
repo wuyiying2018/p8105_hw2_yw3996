@@ -219,7 +219,8 @@ Relevant features of the dataset:
 Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values
 ```{r}
 mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
-  janitor::clean_names()
+  janitor::clean_names()|>
+  rename(id=study_id)
 
 mci_amyloid
 ```
@@ -231,6 +232,22 @@ Important steps in the import process:
 The features of the dataset:
 
 * The dataset has `r nrow(mci_amyloid)` observations, with `r ncol(mci_amyloid)` variables.
-* The variables are `study_id`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
+* The variables are `id`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
 
+Check whether some participants appear in only the baseline or amyloid datasets
+
+The participants appear in only the baseline dataset are as follows
+```{r}
+mci_baseline_only <- anti_join(mci_baseline, mci_amyloid, by = "id")
+
+mci_baseline_only
+```
+The participants appear in only the amyloid dataset are as follows
+```{r}
+mci_amyloid_only <- anti_join(mci_amyloid, mci_baseline, by = "id")
+
+mci_amyloid_only
+```
+
+Therefore, there are participants appear in only the baseline and participants appear in only amyloid datasets.
 
