@@ -172,12 +172,40 @@ mr_trash_wheel_tidy
 * The total number of cigarette butts collected by Gwynnda in July of 2021 is `r sum(subset(gwynnda, month == "July" & year == "2021" )$cigarette_butts)`.
 
 ## Problem 3: MCI data
-import data
+### Baseline Demographics
+Import, clean, and tidy the dataset of baseline demographics
+
+* Ensure sex and APOE4 carrier status are appropriate encoded (i.e. not numeric)
+* Remove any participants who do not meet the stated inclusion criteria (i.e. no MCI at baseline)
 ```{r}
-mci_amyloid = read_csv("./data_mci/mci_amyloid.csv")|>
+mci_baseline = read_csv("./data_mci/MCI_baseline.csv", skip=1)|>
+  janitor::clean_names()|>
+  mutate(
+    sex = 
+      case_match(
+        sex, 
+        1 ~ "male", 
+        0 ~ "female"),
+    sex = as.factor(sex),
+    apoe4 = 
+      case_match(
+        apoe4,
+        1 ~ "apoe4 carrier",
+        0 ~ "apoe4 non-carrier"),
+    apoe4 = as.factor(apoe4),
+    age_at_onset = ifelse(age_at_onset==".",NA,age_at_onset)
+    ) |>
+  drop_na(age_at_onset)
+
+mci_baseline
+```
+
+Discuss important steps in the import process and relevant features of the dataset.
+
+```{r}
+mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
   janitor::clean_names()
 
-mci_baseline = read_csv("./data_mci/MCI_baseline.csv")|>
-  janitor::clean_names()
+
 ```
 
