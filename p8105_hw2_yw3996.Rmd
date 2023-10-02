@@ -203,6 +203,7 @@ mci_baseline
 Important steps in the import process:
 
 * `skip=1`: skip the first line (i.e. the line of variable explanations) when importing dataset
+* `janitor::clean_names()`: convert all the variable names to lower case
 * `case_match`: change sex and apoe4 into what they really mean instead of number 0 or 1
 * `drop_na(age_at_onset)`: remove the row with missing value in variable `age_at_onset`. This can only recognize `NA` as a missing value, so the previous missing value `.` in the dataset have to be changed into `NA` before using `drop_na`.
 
@@ -214,10 +215,22 @@ Relevant features of the dataset:
 * The average baseline age is `r round(mean(mci_baseline$current_age, na.rm = TRUE),2)` years
 * The proportion of women in the study are APOE4 carriers is P(apoe4 carriers|women developed mci)=`r round( nrow(mci_baseline[mci_baseline$sex == 'female' & mci_baseline$apoe4 =='apoe4 carrier', ]) / nrow(mci_baseline[mci_baseline$sex == 'female' , ]),4) `
 
+### the dataset of longitudinally observed biomarker values
+Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values
 ```{r}
 mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
   janitor::clean_names()
 
-
+mci_amyloid
 ```
+
+Important steps in the import process:
+* `skip=1`: skip the first line (i.e. the line of variable explanations) when importing dataset
+* `janitor::clean_names()`: convert all the variable names to lower case
+
+The features of the dataset:
+
+* The dataset has `r nrow(mci_amyloid)` observations, with `r ncol(mci_amyloid)` variables.
+* The variables are `study_id`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
+
 
