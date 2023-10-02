@@ -234,7 +234,7 @@ The features of the dataset:
 * The dataset has `r nrow(mci_amyloid)` observations, with `r ncol(mci_amyloid)` variables.
 * The variables are `id`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
 
-Check whether some participants appear in only the baseline or amyloid datasets
+### Check whether some participants appear in only the baseline or amyloid datasets
 
 The participants appear in only the baseline dataset are as follows
 ```{r}
@@ -251,10 +251,14 @@ mci_amyloid_only
 
 Therefore, there are participants appear in only the baseline and participants appear in only amyloid datasets.
 
-Combine the demographic and biomarker datasets so that only participants who appear in both datasets are retained
+### Combine the demographic and biomarker datasets so that only participants who appear in both datasets are retained
 ```{r}
 df_2 = inner_join(mci_baseline, mci_amyloid, by = "id")
 
 df_2
 ```
 
+### Briefly describe the resulting dataset
+
+* The resulting dataset `df_2` includes `r nrow(df_2)` observations, with `r ncol(df_2)` variables
+* The variables include: `id`, `current_age` (in years), `sex` (female or male), `educations` (in years), `apoe4` (whether apoe4 carrier or non-carrier), `age_at_onset`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
