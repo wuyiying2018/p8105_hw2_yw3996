@@ -105,7 +105,7 @@ Read and clean the Mr. Trash Wheel sheet:
 * update the data to include a new homes_powered variable based on Homes Powered - Each ton of trash equates to on average 500 kilowatts of electricity.  An average household will use 30 kilowatts per day..
 ```{r}
 mr_trash_wheel = read_excel(
-  "202207 Trash Wheel Collection Data.xlsx", 
+  "202309 Trash Wheel Collection Data.xlsx", 
   sheet="Mr. Trash Wheel", range = cell_cols("A:N"))|>
   janitor::clean_names()|>
   filter(row_number() <= n()-1)|>
@@ -118,7 +118,7 @@ mr_trash_wheel
 Use a similar process to import, clean, and organize the data for `professor_trash_wheel`
 ```{r}
 professor_trash_wheel = read_excel(
-  "202207 Trash Wheel Collection Data.xlsx", 
+  "202309 Trash Wheel Collection Data.xlsx", 
   sheet="Professor Trash Wheel", range = cell_cols("A:M"))|>
   janitor::clean_names()|>
   filter(row_number() <= n()-1)|>
@@ -131,8 +131,8 @@ professor_trash_wheel
 Use a similar process to import, clean, and organize the data for `gwynnda`
 ```{r}
 gwynnda = read_excel(
-  "202207 Trash Wheel Collection Data.xlsx", 
-  sheet="Gwynnda Trash Wheel", range = cell_cols("A:K"))|>
+  "202309 Trash Wheel Collection Data.xlsx", 
+  sheet="Gwynnda Trash Wheel", range = cell_cols("A:L"))|>
   janitor::clean_names()|>
   filter(row_number() <= n()-2)|>
   mutate(homes_powered=weight_tons*500/30)
