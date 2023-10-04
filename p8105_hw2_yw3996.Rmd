@@ -217,10 +217,24 @@ Relevant features of the dataset:
 
 ### the dataset of longitudinally observed biomarker values
 Similarly, import, clean, and tidy the dataset of longitudinally observed biomarker values
+
+and also pivot longer
 ```{r}
 mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
   janitor::clean_names()|>
-  rename(id=study_id)
+  rename(id=study_id)|>
+  pivot_longer(time_2:time_8,
+               names_to = "time",
+               values_to = "amyloid")|>
+  mutate(
+    time=
+    case_match(
+        time, 
+        "time_2" ~ 2, 
+        "time_4" ~ 4,
+        "time_6" ~ 6,
+        "time_8" ~ 8),
+    time=as.numeric(time))
 
 mci_amyloid
 ```
@@ -228,6 +242,7 @@ mci_amyloid
 Important steps in the import process:
 * `skip=1`: skip the first line (i.e. the line of variable explanations) when importing dataset
 * `janitor::clean_names()`: convert all the variable names to lower case
+* `pivot_longer`: pivot the dataset into long format
 
 The features of the dataset:
 
@@ -236,17 +251,17 @@ The features of the dataset:
 
 ### Check whether some participants appear in only the baseline or amyloid datasets
 
-The participants appear in only the baseline dataset are as follows
+The participants' id appear in only the baseline dataset are as follows
 ```{r}
 mci_baseline_only <- anti_join(mci_baseline, mci_amyloid, by = "id")
 
-mci_baseline_only
+unique(mci_baseline_only$id)
 ```
-The participants appear in only the amyloid dataset are as follows
+The participants' id appear in only the amyloid dataset are as follows
 ```{r}
 mci_amyloid_only <- anti_join(mci_amyloid, mci_baseline, by = "id")
 
-mci_amyloid_only
+unique(mci_amyloid_only$id)
 ```
 
 Therefore, there are participants appear in only the baseline and participants appear in only amyloid datasets.
