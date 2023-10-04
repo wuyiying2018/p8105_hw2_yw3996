@@ -193,7 +193,8 @@ mci_baseline = read_csv("./data_mci/MCI_baseline.csv", skip=1)|>
         1 ~ "apoe4 carrier",
         0 ~ "apoe4 non-carrier"),
     apoe4 = as.factor(apoe4),
-    age_at_onset = ifelse(age_at_onset==".", NA, age_at_onset)
+    age_at_onset = ifelse(age_at_onset==".", NA, age_at_onset),
+    age_at_onset=as.numeric(age_at_onset)
     ) |>
   drop_na(age_at_onset)
 
@@ -234,12 +235,15 @@ mci_amyloid = read_csv("./data_mci/mci_amyloid.csv", skip=1)|>
         "time_4" ~ 4,
         "time_6" ~ 6,
         "time_8" ~ 8),
-    time=as.numeric(time))
+    time=as.numeric(time),
+    baseline=as.numeric(baseline),
+    amyloid=as.numeric(amyloid))
 
 mci_amyloid
 ```
 
 Important steps in the import process:
+
 * `skip=1`: skip the first line (i.e. the line of variable explanations) when importing dataset
 * `janitor::clean_names()`: convert all the variable names to lower case
 * `pivot_longer`: pivot the dataset into long format
@@ -247,7 +251,7 @@ Important steps in the import process:
 The features of the dataset:
 
 * The dataset has `r nrow(mci_amyloid)` observations, with `r ncol(mci_amyloid)` variables.
-* The variables are `id`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
+* The variables are `id`, `baseline`, `time`, `amyloid`.
 
 ### Check whether some participants appear in only the baseline or amyloid datasets
 
@@ -276,7 +280,7 @@ df_2
 ### Briefly describe the resulting dataset
 
 * The resulting dataset `df_2` includes `r nrow(df_2)` observations, with `r ncol(df_2)` variables
-* The variables include: `id`, `current_age` (in years), `sex` (female or male), `educations` (in years), `apoe4` (whether apoe4 carrier or non-carrier), `age_at_onset`, `baseline`, `time_2`, `time_4`, `time_6`, `time_8`
+* The variables include: `id`, `current_age` (in years), `sex` (female or male), `educations` (in years), `apoe4` (whether apoe4 carrier or non-carrier), `age_at_onset`, `baseline`, `time`, `amyloid`.
 
 ### Export the result as a CSV to data directory
 ```{r}
